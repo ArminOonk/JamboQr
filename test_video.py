@@ -12,10 +12,10 @@ def decode(im):
     # Find barcodes and QR codes
     decodedObjects = pyzbar.decode(im)
 
-    # Print results
-    for obj in decodedObjects:
-        print('Type : ', obj.type)
-        print('Data : ', obj.data, '\n')
+    # # Print results
+    # for obj in decodedObjects:
+    #     print('Type : ', obj.type)
+    #     print('Data : ', obj.data, '\n')
 
     return decodedObjects
 
@@ -36,8 +36,10 @@ frame_average = 10
 osd_text = ''
 
 m_sepia = np.asarray([[0.393, 0.769, 0.189],
-                             [0.349, 0.686, 0.168],
-                             [0.272, 0.534, 0.131]])
+                      [0.349, 0.686, 0.168],
+                      [0.272, 0.534, 0.131]])
+
+prev_nr_jambo = 0
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # grab the raw NumPy array representing the image, then initialize the timestamp
@@ -54,6 +56,20 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     cv2.putText(image, osd_text, (10, 50), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
 
     decodedObjects = decode(image)
+    jambo_tags = []
+    for do in decodedObjects:
+        txt = do.data.decode("utf-8")
+        if txt.startswith('jambo'):
+            jambo_tags.append(txt)
+
+    if len(jambo_tags) != prev_nr_jambo:
+        print('Number of jambo tags: ' + str(len(jambo_tags)))
+        prev_nr_jambo = len(jambo_tags)
+
+        set_jambo = set(jambo_tags)
+        for sj in set_jambo:
+            print(sj + ' occured: ' + str(jambo_tags.count(sj)))
+
 
     # Sephia
     sepia = cv2.transform(image, m_sepia)
