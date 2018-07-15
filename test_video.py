@@ -5,6 +5,7 @@ from picamera import PiCamera
 import time
 import cv2
 import pyzbar.pyzbar as pyzbar
+import numpy as np
 
 
 def decode(im):
@@ -33,6 +34,10 @@ prev_time = time.time()
 frame_counter = 0
 frame_average = 10
 osd_text = ''
+
+m_sepia = np.asarray([[0.393, 0.769, 0.189],
+                             [0.349, 0.686, 0.168],
+                             [0.272, 0.534, 0.131]])
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # grab the raw NumPy array representing the image, then initialize the timestamp
@@ -50,8 +55,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
     decodedObjects = decode(image)
 
+    # Sephia
+    sepia = cv2.transform(image, m_sepia)
+
     # show the frame
-    cv2.imshow("Frame", image)
+    cv2.imshow("Frame", sepia)
     key = cv2.waitKey(1) & 0xFF
 
     # clear the stream in preparation for the next frame
