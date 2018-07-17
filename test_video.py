@@ -41,8 +41,10 @@ m_sepia = np.asarray([[0.393, 0.769, 0.189],
 
 prev_nr_jambo = 0
 
-cv2.namedWindow('Frame', flags= cv2.WND_PROP_FULLSCREEN)
+cv2.namedWindow('Frame', flags=cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("Frame", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
+border = cv2.imread('border.png')
 
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -75,10 +77,18 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             print(sj + ' occured: ' + str(jambo_tags.count(sj)))
 
     # Sephia
-    sepia = cv2.transform(image, m_sepia)
-    sepia = cv2.resize(sepia, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+    image = cv2.transform(image, m_sepia)
+    image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+
+    y_offset = int(0.5 * (border.shape[0] - image.shape[0]))
+    x_offset = int(0.5 * (border.shape[1] - image.shape[1]))
+
+    y1, y2 = y_offset, y_offset + image.shape[0]
+    x1, x2 = x_offset, x_offset + image.shape[1]
+    border[y1:y2, x1:x2] = image
+
     # show the frame
-    cv2.imshow("Frame", sepia)
+    cv2.imshow("Frame", border)
     key = cv2.waitKey(1) & 0xFF
 
     # clear the stream in preparation for the next frame
