@@ -24,7 +24,7 @@ def decode(im):
 camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(640, 480))
+rawCapture = PiRGBArray(camera, size=camera.resolution)
 
 # allow the camera to warmup
 time.sleep(0.1)
@@ -40,6 +40,10 @@ m_sepia = np.asarray([[0.393, 0.769, 0.189],
                       [0.272, 0.534, 0.131]])
 
 prev_nr_jambo = 0
+
+cv2.namedWindow('Frame', flags= cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty("Frame", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # grab the raw NumPy array representing the image, then initialize the timestamp
@@ -51,7 +55,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     if frame_counter % frame_average == 0:
         dt = time.time() - prev_time
         prev_time = time.time()
-        osd_text = 'fps: ' + str(int(float(frame_average) / dt))
+        osd_text = 'fps: ' + '{:.2f}'.format(float(frame_average) / dt)
 
     cv2.putText(image, osd_text, (10, 50), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
 
@@ -70,10 +74,9 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         for sj in set_jambo:
             print(sj + ' occured: ' + str(jambo_tags.count(sj)))
 
-
     # Sephia
     sepia = cv2.transform(image, m_sepia)
-
+    sepia = cv2.resize(sepia, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
     # show the frame
     cv2.imshow("Frame", sepia)
     key = cv2.waitKey(1) & 0xFF
