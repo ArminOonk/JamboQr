@@ -8,6 +8,15 @@ import pyzbar.pyzbar as pyzbar
 import numpy as np
 
 
+def get_jambo_tags(decode_objects):
+    jambo_tags = []
+    for do in decode_objects:
+        txt = do.data.decode("utf-8")
+        if txt.startswith('jambo'):
+            jambo_tags.append(txt)
+    return jambo_tags
+
+
 def main():
     # initialize the camera and grab a reference to the raw camera capture
     camera = PiCamera()
@@ -22,6 +31,7 @@ def main():
     frame_counter = 0
     frame_average = 10
     osd_text = ''
+    found_text = ''
 
     prev_nr_jambo = 0
 
@@ -42,27 +52,29 @@ def main():
             osd_text = 'fps: ' + '{:.2f}'.format(float(frame_average) / dt)
 
         cv2.putText(image, osd_text, (10, 50), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
-        image = image[:camera.resolution[1], :camera.resolution[0], 0]
 
-        decodedObjects = pyzbar.decode(image)
-        jambo_tags = []
-        for do in decodedObjects:
-            txt = do.data.decode("utf-8")
-            if txt.startswith('jambo'):
-                jambo_tags.append(txt)
+        jambo_tags = get_jambo_tags(pyzbar.decode(image))
 
-            if txt == 'jambo:STOP':
-                print('Stopping')
-                return
+        if 'jambo:STOP' in jambo_tags:
+            print('Stopping')
+            return
 
         if len(jambo_tags) != prev_nr_jambo:
+            found_text = 'Found:'
             print('Number of jambo tags: ' + str(len(jambo_tags)))
             prev_nr_jambo = len(jambo_tags)
 
             set_jambo = set(jambo_tags)
             for sj in set_jambo:
-                print(sj + ' occured: ' + str(jambo_tags.count(sj)))
+                tag_count = jambo_tags.count(sj)
+                print(sj + ' occured: ' + str(tag_count))
 
+                if tag_count == 4:
+                    found_text += ' ' + sj
+
+        cv2.putText(image, found_text, (10, 100), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+
+        image = image[:camera.resolution[1], :camera.resolution[0], 0]
         image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
         y_offset = int(0.5 * (border.shape[0] - image.shape[0]))
