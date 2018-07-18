@@ -8,24 +8,11 @@ import pyzbar.pyzbar as pyzbar
 import numpy as np
 
 
-def decode(im):
-    # Find barcodes and QR codes
-    decodedObjects = pyzbar.decode(im)
-
-    # # Print results
-    # for obj in decodedObjects:
-    #     print('Type : ', obj.type)
-    #     print('Data : ', obj.data, '\n')
-
-    return decodedObjects
-
-
 def main():
     # initialize the camera and grab a reference to the raw camera capture
     camera = PiCamera()
     camera.resolution = (640, 480)
-    camera.framerate = 32
-    rawCapture = PiYUVArray(camera, size=camera.resolution)
+    raw_capture = PiYUVArray(camera, size=camera.resolution)
 
     # allow the camera to warmup
     time.sleep(0.1)
@@ -36,25 +23,16 @@ def main():
     frame_average = 10
     osd_text = ''
 
-    m_sepia = np.asarray([[0.393, 0.769, 0.189],
-                          [0.349, 0.686, 0.168],
-                          [0.272, 0.534, 0.131]])
-
     prev_nr_jambo = 0
 
     cv2.namedWindow('Frame', flags=cv2.WND_PROP_FULLSCREEN)
     cv2.setWindowProperty("Frame", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
-    border = cv2.imread('border.png')
-    # print('imread border shape: ' + str(border.shape))
     border = np.zeros((1080, 1920), np.uint8)
 
     # capture frames from the camera
-    for frame in camera.capture_continuous(rawCapture, format="yuv", use_video_port=True):
-        # grab the raw NumPy array representing the image, then initialize the timestamp
-        # and occupied/unoccupied text
+    for frame in camera.capture_continuous(raw_capture, format="yuv", use_video_port=True):
         image = frame.array
-        image = image[:camera.resolution[1], :camera.resolution[0], 0]
 
         # On screen text
         frame_counter += 1
@@ -63,9 +41,10 @@ def main():
             prev_time = time.time()
             osd_text = 'fps: ' + '{:.2f}'.format(float(frame_average) / dt)
 
-        # cv2.putText(image, osd_text, (10, 50), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(image, osd_text, (10, 50), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+        image = image[:camera.resolution[1], :camera.resolution[0], 0]
 
-        decodedObjects = decode(image)
+        decodedObjects = pyzbar.decode(image)
         jambo_tags = []
         for do in decodedObjects:
             txt = do.data.decode("utf-8")
@@ -84,8 +63,6 @@ def main():
             for sj in set_jambo:
                 print(sj + ' occured: ' + str(jambo_tags.count(sj)))
 
-        # Sephia
-        # image = cv2.transform(image, m_sepia)
         image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
         y_offset = int(0.5 * (border.shape[0] - image.shape[0]))
@@ -101,7 +78,7 @@ def main():
         key = cv2.waitKey(1) & 0xFF
 
         # clear the stream in preparation for the next frame
-        rawCapture.truncate(0)
+        raw_capture.truncate(0)
 
         # if the `q` key was pressed, break from the loop
         if key == ord("q"):
