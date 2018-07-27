@@ -1,6 +1,7 @@
 [
     {
         "a": "Donald duck",
+        "ans": "b",
         "b": "Michiel",
         "c": "Jan Smit",
         "d": "Wybo",
@@ -8,9 +9,10 @@
     },
     {
         "a": "Donald duck",
-        "b": "Neptunus",
+        "ans": "d",
+        "b": "Pien",
         "c": "Jan Smit",
-        "d": "Pien",
+        "d": "Neptunes",
         "q": "Wie is de teamleider van Aqua?"
     }
 ]
