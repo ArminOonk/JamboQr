@@ -92,7 +92,7 @@ def create_page(team, question):
     # Color
     color = {'a': 'Rood', 'b': 'Groen', 'c': 'Geel', 'd': 'Oranje'}
     color_text = dwg.add(dwg.g(font_size=72, style='font-family:TESLAFONT;'))
-    color_text.add(dwg.text('Kleur: ' + color[question['ans']], (600, 750)))
+    color_text.add(dwg.text('Kleur: ' + color[question['ans']], (750, 750), text_anchor='middle'))
 
     dwg.save()
 
