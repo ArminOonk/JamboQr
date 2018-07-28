@@ -60,7 +60,7 @@ def qr_svg(dwg, qr, x, y, size):
                 svg.add(svgwrite.shapes.Rect(insert=insert, size=(size, size)))
 
 
-def create_page(team):
+def create_page(team, question):
     dwg = svgwrite.Drawing(team + '.svg', (1000, 1000), debug=True)
     paragraph = dwg.add(dwg.g(font_size=72, style='font-family:TESLAFONT;'))
     paragraph.add(dwg.text(team, (250, 100), text_anchor='middle'))
@@ -74,10 +74,25 @@ def create_page(team):
 
     # QR code
     qr_name = 'STOP'
-    qr = pyqrcode.create('jambo:' + qr_name, error='H')
-
+    qr = pyqrcode.create('jambo:' + qr_name + ':' + question['ans'], error='H')
     qr_svg(dwg, qr.text(), 100, 100, 10)
 
+    # Question
+    question_text = dwg.add(dwg.g(font_size=24, style='font-family:TESLAFONT;'))
+    question_text.add(dwg.text('Vraag: ', (750, 200), text_anchor='middle'))
+    question_text.add(dwg.text(question['q'], (750, 300), text_anchor='middle'))
+
+    # Answer
+    ans_text = dwg.add(dwg.g(font_size=24, style='font-family:TESLAFONT;'))
+    ans_text.add(dwg.text('A: ' + question['a'], (100, 750)))
+    ans_text.add(dwg.text('B: ' + question['b'], (100, 800)))
+    ans_text.add(dwg.text('C: ' + question['c'], (100, 850)))
+    ans_text.add(dwg.text('D: ' + question['d'], (100, 900)))
+
+    # Color
+    color = {'a': 'Rood', 'b': 'Groen', 'c': 'Geel', 'd': 'Oranje'}
+    color_text = dwg.add(dwg.g(font_size=72, style='font-family:TESLAFONT;'))
+    color_text.add(dwg.text('Kleur: ' + color[question['ans']], (600, 750)))
 
     dwg.save()
 
@@ -85,7 +100,7 @@ def create_page(team):
 with open('question.txt', 'r') as f:
     questions = json.load(f)
 
-create_page('TEST')
+create_page('TEST', questions[0])
 
 # save_dir = 'teamnamen_logo/'
 # teams = read_teamnames('teamnamen sorted.txt')
