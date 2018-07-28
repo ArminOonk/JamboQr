@@ -1,7 +1,30 @@
 import json
 import svgwrite
 import pyqrcode
-import io
+
+
+def setup_questions():
+    questions = []
+    d = dict()
+    d['q'] = 'Wie is de teamleider van TEAT?'
+    d['a'] = 'Donald duck'
+    d['b'] = 'Michiel'
+    d['c'] = 'Jan Smit'
+    d['d'] = 'Wybo'
+    d['ans'] = 'b'
+    questions.append(d)
+
+    e = dict()
+    e['q'] = 'Wie is de teamleider van Aqua?'
+    e['a'] = 'Donald duck'
+    e['b'] = 'Pien'
+    e['c'] = 'Jan Smit'
+    e['d'] = 'Neptunes'
+    e['ans'] = 'd'
+    questions.append(e)
+
+    with open('question.txt', 'w') as f:
+        f.write(json.dumps(questions, sort_keys=True, indent=4))
 
 
 def read_teamnames(in_file):
@@ -34,17 +57,16 @@ def qr_svg(dwg, qr, x, y, size):
         for dx in range(len(line)):
             if line[dx] == '1':
                 insert = (x + size * dx, y + size * dy)
-                print(str(insert))
                 svg.add(svgwrite.shapes.Rect(insert=insert, size=(size, size)))
 
 
 def create_page(team):
     dwg = svgwrite.Drawing(team + '.svg', (1000, 1000), debug=True)
-    paragraph = dwg.add(dwg.g(font_size=14, style='font-family:TESLAFONT;'))
-    paragraph.add(dwg.text(team, (250, 20), text_anchor='middle'))
-    paragraph.add(dwg.text(team, (750, 20), text_anchor='middle'))
-    paragraph.add(dwg.text(team, (250, 520), text_anchor='middle'))
-    paragraph.add(dwg.text(team, (750, 520), text_anchor='middle'))
+    paragraph = dwg.add(dwg.g(font_size=72, style='font-family:TESLAFONT;'))
+    paragraph.add(dwg.text(team, (250, 100), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (750, 100), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (250, 600), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (750, 600), text_anchor='middle'))
 
     lines = dwg.add(dwg.g(stroke_width=2, stroke='black', fill='none'))
     lines.add(dwg.line(start=(0, 500), end=(1000, 500)))
@@ -59,6 +81,10 @@ def create_page(team):
 
     dwg.save()
 
+
+with open('question.txt', 'r') as f:
+    questions = json.load(f)
+
 create_page('TEST')
 
 # save_dir = 'teamnamen_logo/'
@@ -69,24 +95,3 @@ create_page('TEST')
 #     paragraph.add(dwg.text(t.upper(), (10, 20)))
 #     dwg.save()
 
-# questions = []
-# d = dict()
-# d['q'] = 'Wie is de teamleider van TEAT?'
-# d['a'] = 'Donald duck'
-# d['b'] = 'Michiel'
-# d['c'] = 'Jan Smit'
-# d['d'] = 'Wybo'
-# d['ans'] = 'b'
-# questions.append(d)
-#
-# e = dict()
-# e['q'] = 'Wie is de teamleider van Aqua?'
-# e['a'] = 'Donald duck'
-# e['b'] = 'Pien'
-# e['c'] = 'Jan Smit'
-# e['d'] = 'Neptunes'
-# e['ans'] = 'd'
-# questions.append(e)
-#
-# with open('question.txt', 'w') as f:
-#     f.write(json.dumps(questions, sort_keys=True, indent=4))
