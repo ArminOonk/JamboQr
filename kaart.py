@@ -1,5 +1,7 @@
 import json
 import svgwrite
+import pyqrcode
+import io
 
 
 def read_teamnames(in_file):
@@ -24,13 +26,48 @@ def process_teamnames(in_file, out_file):
     return sorted_teams
 
 
-save_dir = 'teamnamen_logo/'
-teams = read_teamnames('teamnamen sorted.txt')
-for t in teams:
-    dwg = svgwrite.Drawing(save_dir + t + '.svg', (200, 200), debug=True)
+def qr_svg(dwg, qr, x, y, size):
+    svg = dwg.add(dwg.g(stroke='none', fill='black'))
+    vals = qr.split('\n')
+    for dy in range(len(vals)):
+        line = vals[dy]
+        for dx in range(len(line)):
+            if line[dx] == '1':
+                insert = (x + size * dx, y + size * dy)
+                print(str(insert))
+                svg.add(svgwrite.shapes.Rect(insert=insert, size=(size, size)))
+
+
+def create_page(team):
+    dwg = svgwrite.Drawing(team + '.svg', (1000, 1000), debug=True)
     paragraph = dwg.add(dwg.g(font_size=14, style='font-family:TESLAFONT;'))
-    paragraph.add(dwg.text(t.upper(), (10, 20)))
+    paragraph.add(dwg.text(team, (250, 20), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (750, 20), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (250, 520), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (750, 520), text_anchor='middle'))
+
+    lines = dwg.add(dwg.g(stroke_width=2, stroke='black', fill='none'))
+    lines.add(dwg.line(start=(0, 500), end=(1000, 500)))
+    lines.add(dwg.line(start=(500, 0), end=(500, 1000)))
+
+    # QR code
+    qr_name = 'STOP'
+    qr = pyqrcode.create('jambo:' + qr_name, error='H')
+
+    qr_svg(dwg, qr.text(), 100, 100, 10)
+
+
     dwg.save()
+
+create_page('TEST')
+
+# save_dir = 'teamnamen_logo/'
+# teams = read_teamnames('teamnamen sorted.txt')
+# for t in teams:
+#     dwg = svgwrite.Drawing(save_dir + t + '.svg', (200, 200), debug=True)
+#     paragraph = dwg.add(dwg.g(font_size=14, style='font-family:TESLAFONT;'))
+#     paragraph.add(dwg.text(t.upper(), (10, 20)))
+#     dwg.save()
 
 # questions = []
 # d = dict()
