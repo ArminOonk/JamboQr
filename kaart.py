@@ -61,7 +61,7 @@ def qr_svg(dwg, qr, x, y, size):
 
 
 def create_page(team, question):
-    dwg = svgwrite.Drawing(team + '.svg', (1000, 1000), debug=True)
+    dwg = svgwrite.Drawing('teamnamen_logo/' + team + '.svg', (1000, 1000), debug=True)
     paragraph = dwg.add(dwg.g(font_size=72, style='font-family:TESLAFONT;'))
     paragraph.add(dwg.text(team, (250, 100), text_anchor='middle'))
     paragraph.add(dwg.text(team, (750, 100), text_anchor='middle'))
@@ -100,7 +100,11 @@ def create_page(team, question):
 with open('question.txt', 'r') as f:
     questions = json.load(f)
 
-create_page('TEST', questions[0])
+teams = read_teamnames('teamnamen sorted.txt')
+page_number = 0
+for t in teams:
+    create_page(t.upper(), questions[page_number % len(questions)])
+    page_number += 1
 
 # save_dir = 'teamnamen_logo/'
 # teams = read_teamnames('teamnamen sorted.txt')
