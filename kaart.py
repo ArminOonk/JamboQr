@@ -66,10 +66,10 @@ def qr_svg(dwg, qr, x, y, size):
 
 
 def create_page(team, question):
-    width = 1000
-    height = 1000
-    font_size_big = 72
-    font_size_small = 24
+    width = 600
+    height = 600
+    font_size_big = 30
+    font_size_small = 10
 
     dwg = svgwrite.Drawing('teamnamen_logo/' + team + '.svg', (width, height), debug=True)
 
@@ -85,7 +85,7 @@ def create_page(team, question):
 
     # QR code
     qr = pyqrcode.create('jambo:' + team + ':' + question['ans'], error='H')
-    qr_svg(dwg, qr.text(), 0.1 * width, 0.1 * height, 10)
+    qr_svg(dwg, qr.text(), 0.1 * width, 0.1 * height, 5)
 
     # Question
     question_text = dwg.add(dwg.g(font_size=font_size_small, style='font-family:TESLAFONT;'))
