@@ -1,6 +1,11 @@
 import json
 import svgwrite
 import pyqrcode
+from reportlab.graphics import renderPDF
+from reportlab.pdfgen import canvas
+from svglib.svglib import svg2rlg
+import os
+import random
 
 
 def setup_questions():
@@ -61,38 +66,43 @@ def qr_svg(dwg, qr, x, y, size):
 
 
 def create_page(team, question):
-    dwg = svgwrite.Drawing('teamnamen_logo/' + team + '.svg', (1000, 1000), debug=True)
-    paragraph = dwg.add(dwg.g(font_size=72, style='font-family:TESLAFONT;'))
-    paragraph.add(dwg.text(team, (250, 100), text_anchor='middle'))
-    paragraph.add(dwg.text(team, (750, 100), text_anchor='middle'))
-    paragraph.add(dwg.text(team, (250, 600), text_anchor='middle'))
-    paragraph.add(dwg.text(team, (750, 600), text_anchor='middle'))
+    width = 1000
+    height = 1000
+    font_size_big = 72
+    font_size_small = 24
+
+    dwg = svgwrite.Drawing('teamnamen_logo/' + team + '.svg', (width, height), debug=True)
 
     lines = dwg.add(dwg.g(stroke_width=2, stroke='black', fill='none'))
-    lines.add(dwg.line(start=(0, 500), end=(1000, 500)))
-    lines.add(dwg.line(start=(500, 0), end=(500, 1000)))
+    lines.add(dwg.line(start=(0, 0.5 * height), end=(width, 0.5 * height)))
+    lines.add(dwg.line(start=(0.5 * width, 0), end=(0.5 * width, height)))
+
+    paragraph = dwg.add(dwg.g(font_size=font_size_big, style='font-family:TESLAFONT;'))
+    paragraph.add(dwg.text(team, (0.25 * width, 0.1 * height), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (0.75 * width, 0.1 * height), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (0.25 * width, 0.6 * height), text_anchor='middle'))
+    paragraph.add(dwg.text(team, (0.75 * width, 0.6 * height), text_anchor='middle'))
 
     # QR code
-    qr_name = 'STOP'
-    qr = pyqrcode.create('jambo:' + qr_name + ':' + question['ans'], error='H')
-    qr_svg(dwg, qr.text(), 100, 100, 10)
+    qr = pyqrcode.create('jambo:' + team + ':' + question['ans'], error='H')
+    qr_svg(dwg, qr.text(), 0.1 * width, 0.1 * height, 10)
 
     # Question
-    question_text = dwg.add(dwg.g(font_size=24, style='font-family:TESLAFONT;'))
-    question_text.add(dwg.text('Vraag: ', (750, 200), text_anchor='middle'))
-    question_text.add(dwg.text(question['q'], (750, 300), text_anchor='middle'))
+    question_text = dwg.add(dwg.g(font_size=font_size_small, style='font-family:TESLAFONT;'))
+    question_text.add(dwg.text('Vraag: ', (0.75 * width, 0.2 * height), text_anchor='middle'))
+    question_text.add(dwg.text(question['q'], (0.75 * width, 0.3 * height), text_anchor='middle'))
 
     # Answer
-    ans_text = dwg.add(dwg.g(font_size=24, style='font-family:TESLAFONT;'))
-    ans_text.add(dwg.text('A: ' + question['a'], (100, 750)))
-    ans_text.add(dwg.text('B: ' + question['b'], (100, 800)))
-    ans_text.add(dwg.text('C: ' + question['c'], (100, 850)))
-    ans_text.add(dwg.text('D: ' + question['d'], (100, 900)))
+    ans_text = dwg.add(dwg.g(font_size=font_size_small, style='font-family:TESLAFONT;'))
+    ans_text.add(dwg.text('A: ' + question['a'], (0.1 * width, 0.75 * height)))
+    ans_text.add(dwg.text('B: ' + question['b'], (0.1 * width, 0.8 * height)))
+    ans_text.add(dwg.text('C: ' + question['c'], (0.1 * width, 0.85 * height)))
+    ans_text.add(dwg.text('D: ' + question['d'], (0.1 * width, 0.9 * height)))
 
     # Color
     color = {'a': 'Rood', 'b': 'Groen', 'c': 'Geel', 'd': 'Oranje'}
-    color_text = dwg.add(dwg.g(font_size=72, style='font-family:TESLAFONT;'))
-    color_text.add(dwg.text('Kleur: ' + color[question['ans']], (750, 750), text_anchor='middle'))
+    color_text = dwg.add(dwg.g(font_size=font_size_big, style='font-family:TESLAFONT;'))
+    color_text.add(dwg.text('Kleur: ' + color[question['ans']], (0.75 * width, 0.75 * height), text_anchor='middle'))
 
     dwg.save()
 
@@ -106,6 +116,25 @@ for t in teams:
     create_page(t.upper(), questions[page_number % len(questions)])
     page_number += 1
 
+save_dir = 'teamnamen_logo/'
+files = os.listdir(save_dir)
+random.shuffle(files)
+
+my_canvas = canvas.Canvas('svg_on_canvas.pdf')
+for f in files:
+    drawing = svg2rlg(save_dir + f)
+    renderPDF.draw(drawing, my_canvas, 0, 40)
+    my_canvas.showPage()
+    print(f)
+my_canvas.save()
+
+# my_canvas = canvas.Canvas('svg_on_canvas.pdf')
+# drawing = svg2rlg(image_path)
+# renderPDF.draw(drawing, my_canvas, 0, 40)
+# my_canvas.drawString(50, 30, 'My SVG Image')
+# my_canvas.save()
+
+
 # save_dir = 'teamnamen_logo/'
 # teams = read_teamnames('teamnamen sorted.txt')
 # for t in teams:
@@ -113,4 +142,3 @@ for t in teams:
 #     paragraph = dwg.add(dwg.g(font_size=14, style='font-family:TESLAFONT;'))
 #     paragraph.add(dwg.text(t.upper(), (10, 20)))
 #     dwg.save()
-
