@@ -8,11 +8,11 @@
         "q": "Wie is de teamleider van TEAT?"
     },
     {
-        "a": "Donald duck",
-        "ans": "d",
-        "b": "Pien",
-        "c": "Jan Smit",
-        "d": "Neptunes",
-        "q": "Wie is de teamleider van Aqua?"
+        "q": "Wie is de teamleider van Aqua?",
+        "a": "Hansi Kürsch",
+        "b": "Waldo de Borst",
+        "c": "Barbara Klemann",
+        "d": "Neptunus",
+        "ans": "c"
     }
 ]
