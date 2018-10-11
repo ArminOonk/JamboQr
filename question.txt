@@ -1,18 +1,138 @@
 [
     {
-        "a": "Donald duck",
-        "ans": "b",
-        "b": "Michiel",
-        "c": "Jan Smit",
-        "d": "Wybo",
-        "q": "Wie is de teamleider van TEAT?"
-    },
-    {
         "q": "Wie is de teamleider van Aqua?",
         "a": "Hansi Kürsch",
         "b": "Waldo de Borst",
         "c": "Barbara Klemann",
         "d": "Neptunus",
         "ans": "c"
-    }
+    },
+    {
+        "q": "Wie is de teamleider van Arts, Crafts & Technology?",
+        "a": "Petra Peschar",
+        "b": "Nikola Tesla",
+        "c": "Raymond Smit",
+        "d": "Baron von Münchhausen",
+        "ans": "a"
+    },
+    {
+        "q": "Wie is de teamleider van Events?",
+        "a": "Floor Jansen",
+        "b": "Michiel de Lugt",
+        "c": "William Shakespeare",
+        "d": "Daan Bosman",
+        "ans": "b"
+    },
+    {
+        "q": "Wie is de teamleider van First Aid?",
+        "a": "Waldo de Borst",
+        "b": "Alexander Fleming",
+        "c": "Dexter Morgan",
+        "d": "Wim Smeets",
+        "ans": "d"
+    },
+    {
+        "q": "Wie is de teamleider van Food Supply?",
+        "a": "Joey Staats",
+        "b": "Wybo Kooge",
+        "c": "Gordon ramsay",
+        "d": "Tom Allemansratten",
+        "ans": "a"
+    },
+    {
+        "q": "Wie is de teamleider van Hikes?",
+        "a": "Steffen van der Pol",
+        "b": "Doke de Jong",
+        "c": "Bilbo Baggins",
+        "d": "James Hetfield",
+        "ans": "b"
+    },
+    {
+        "q": "Wie is de teamleider van Info?",
+        "a": "Bruce Dickinson",
+        "b": "Raymond Smit",
+        "c": "Susanne Kikkert",
+        "d": "Sherlock Holmes",
+        "ans": "c"
+    },
+    {
+        "q": "Wie is de teamleider van SuMo's?",
+        "a": "Erik Ruissen",
+        "b": "Hakuhō Shō",
+        "c": "Michael Poulsen",
+        "d": "Petra Zuidam",
+        "ans": "d"
+    },
+    {
+        "q": "Wie is de teamleider van de Jamboshop?",
+        "a": "Mascha van der Vlerk",
+        "b": "Wouter van Bakel",
+        "c": "Jimmy Page",
+        "d": "Apu Nahasapeemapetilon, Jr",
+        "ans": "a"
+    },
+    {
+        "q": "Wie is de teamleider van Jambotours?",
+        "a": "Maja Brant",
+        "b": "Bart Mulder",
+        "c": "Jean-Luc Picard",
+        "d": "	Steven Tyler",
+        "ans": "b"
+    },
+    {
+        "q": "Wie is de teamleider van de Kidsclub?",
+        "a": "Willem Jan Glerum",
+        "b": "Fran Fine",
+        "c": "Anke van der Bor",
+        "d": "Justin Bieber",
+        "ans": "c"
+    },
+    {
+        "q": "Wie is de teamleider van het Mediateam?",
+        "a": "Patty-Lou Middel",
+        "b": "Rupert Murdoch",
+        "c": "Rob Halford",
+        "d": "Renske van Assema",
+        "ans": "d"
+    },
+    {
+        "q": "Wie is de teamleider van het Mokkie?",
+        "a": "Jeroen Adelaar",
+        "b": "Paul Hulsbosch",
+        "c": "Moe Szyslak",
+        "d": "Ian Fraser Kilmister",
+        "ans": "a"
+    },
+    {
+        "q": "Wie is de teamleider van Registration, Transport, Finance?",
+        "a": "Walter White",
+        "b": "Robert van Wijngaarden",
+        "c": "Barry Hay",
+        "d": "Sven Mens",
+        "ans": "b"
+    },
+    {
+        "q": "Wie is de teamleider van het Serviceteam?",
+        "a": "Sebastiaan Beekhuijs",
+        "b": "Alfred Pennyworth",
+        "c": "Ron Stienstra",
+        "d": "Noora Louhimo",
+        "ans": "c"
+    },
+    {
+        "q": "Wie is teamleider Special projects & Support?",
+        "a": "Janneke Ruissen",
+        "b": "James Bond",
+        "c": "Dexter",
+        "d": "Robin Middel",
+        "ans": "d"
+    },
+    {
+        "q": "",
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": "",
+        "ans": ""
+    },
 ]
