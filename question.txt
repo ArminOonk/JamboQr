@@ -35,7 +35,7 @@
         "q": "Wie is de teamleider van Food Supply?",
         "a": "Joey Staats",
         "b": "Wybo Kooge",
-        "c": "Gordon ramsay",
+        "c": "Feronia",
         "d": "Tom Allemansratten",
         "ans": "a"
     },
@@ -128,11 +128,83 @@
         "ans": "d"
     },
     {
-        "q": "",
-        "a": "",
-        "b": "",
-        "c": "",
-        "d": "",
-        "ans": ""
+        "q": "Wie is de teamleider van Sports?",
+        "a": "Danielle Spaan",
+        "b": "Kim Fokkelman",
+        "c": "Barry Allen",
+        "d": "Steve Evans-van der Harte",
+        "ans": "a"
+    },
+	{
+        "q": "Wie is de teamleider van het Stafrestaurant?",
+        "a": "Castus Rabensang",
+        "b": "Peter Kooij",
+        "c": "Gordon ramsay",
+        "d": "Tamara Geldhof",
+        "ans": "b"
+    },
+	{
+        "q": "Wie is teamleider van Subkamp Blauw?",
+        "a": "Pierre Culliford",
+        "b": "Jeffrey Jey",
+        "c": "Annette Heermans",
+        "d": "Janneke Ruissen",
+        "ans": "c"
+    },
+	{
+        "q": "Wie is de teamleider van Subkamp Geel?",
+        "a": "Jasper van Oeffel",
+        "b": "Homer Jay Simpson",
+        "c": "Sebastiaan Bodenstaff",
+        "d": "Bob Brauers",
+        "ans": "d"
+    },
+	{
+        "q": "Wie is de teamleider van Subkamp Groen?",
+        "a": "Lana Lemmens",
+        "b": "Marian van den Heuvel",
+        "c": "Robert Bruce Banner",
+        "d": "Billie Joe Armstrong ",
+        "ans": "a"
+    },
+	{
+        "q": "Wie is de teamleider van Subkamp Oranje?",
+        "a": "Tommy Karevik",
+        "b": "Ivo Lemmens",
+        "c": "Willem-Alexander Claus George Ferdinand",
+        "d": "Mascha van der Vlerk",
+        "ans": "b"
+    },
+	{
+        "q": "Wie is de teamleider van Subkamp Rood?",
+        "a": "Garven Dreis",
+        "b": "Sebastiaan Beekhuijs",
+        "c": "Petra Bodenstaff",
+        "d": "Elmo",
+        "ans": "c"
+    },
+	{
+        "q": "Wie is de teamleider van Stewards(bewaking)?",
+        "a": "Peter Quill",
+        "b": "Officer Barbrady",
+        "c": "Susanne Kikkert",
+        "d": "Arno Ramaekers",
+        "ans": "d"
+    },
+	{
+        "q": "Wie is teamleider Telecom?",
+        "a": "Ruud Pont",
+        "b": "Joost Nolet",
+        "c": "Mark Zuckerberg",
+        "d": "Tamara Fokkelman",
+        "ans": "a"
+    },
+	{
+        "q": "Wie is teamleider van Trail?",
+        "a": "Wouter van Bakel",
+        "b": "David van der Kroon",
+        "c": "Wickie de Viking",
+        "d": "Floki",
+        "ans": "b"
     },
 ]
