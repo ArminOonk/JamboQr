@@ -207,4 +207,28 @@
         "d": "Floki",
         "ans": "b"
     },
+	{
+        "q": "Hoe heet de bar en disco van de Jamborette?",
+        "a": "Tiki",
+        "b": "Saloon",
+        "c": "Mokkie",
+        "d": "Thuis",
+        "ans": "c"
+    },
+	{
+        "q": "Hoe heet het logo van de Jamborette?",
+        "a": "Parabool",
+        "b": "Hexagon",
+        "c": "Polygon",
+        "d": "Paraboloïde",
+        "ans": "d"
+    },
+	{
+        "q": "in welk jaar werd de derde Jamoborette gehouden?",
+        "a": "1985",
+        "b": "1975",
+        "c": "1974",
+        "d": "1978",
+        "ans": "d"
+    }
 ]
