@@ -107,9 +107,14 @@ def create_page(team, question):
     dwg.save()
 
 
-with open('question.txt', 'r') as f:
+with open('question.txt', 'r', encoding="utf8") as f:
     questions = json.load(f)
 
+for q in questions:
+    print(q['q'] + ' -> ' + q[q['ans']])
+
+
+quit()
 teams = read_teamnames('teamnamen sorted.txt')
 page_number = 0
 for t in teams:

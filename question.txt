@@ -76,7 +76,7 @@
         "a": "Maja Brant",
         "b": "Bart Mulder",
         "c": "Jean-Luc Picard",
-        "d": "	Steven Tyler",
+        "d": "Steven Tyler",
         "ans": "b"
     },
     {
@@ -224,7 +224,7 @@
         "ans": "d"
     },
 	{
-        "q": "in welk jaar werd de derde Jamoborette gehouden?",
+        "q": "In welk jaar werd de derde Jamoborette gehouden?",
         "a": "1985",
         "b": "1975",
         "c": "1974",
