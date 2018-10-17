@@ -44,7 +44,7 @@ Munchhausen
 Edison
 Nautilus
 Da Vinci
-Postapocalyctica
+Postapocalyctic
 Stoommachine
 Stoom
 Ingenieur
@@ -80,7 +80,7 @@ Waterworld
 Wild wild west
 Cyberpunk
 Dieselpunk
-Ondekkingsreizigers
+explorers
 Globetrotters
 Verrekijker
 Automatron

@@ -58,7 +58,7 @@
     {
         "q": "Wie is de teamleider van SuMo's?",
         "a": "Erik Ruissen",
-        "b": "Hakuhō Shō",
+        "b": "Hakuho Sho",
         "c": "Michael Poulsen",
         "d": "Petra Zuidam",
         "ans": "d"
