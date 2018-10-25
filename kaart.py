@@ -6,6 +6,8 @@ from reportlab.pdfgen import canvas
 from svglib.svglib import svg2rlg
 import os
 import random
+from reportlab.platypus import SimpleDocTemplate, Image
+from reportlab.lib.units import inch
 
 
 def setup_questions():
@@ -132,8 +134,9 @@ random.shuffle(files)
 
 my_canvas = canvas.Canvas('svg_on_canvas.pdf')
 for f in files:
-    background = svg2rlg('background.svg')
-    renderPDF.draw(background, my_canvas, 0, 40)
+    # background = svg2rlg('background.svg')
+    # renderPDF.draw(background, my_canvas, 0, 40)
+    my_canvas.drawImage('background.png', 5, 10)  # Who needs consistency?
 
     drawing = svg2rlg(save_dir + f)
     renderPDF.draw(drawing, my_canvas, 0, 40)
