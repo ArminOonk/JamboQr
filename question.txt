@@ -104,7 +104,7 @@
         "ans": "a"
     },
     {
-        "q": "Wie is de teamleider van Registration, Transport, Finance?",
+        "q": "Wie is de teamleider van finance?",
         "a": "Walter White",
         "b": "Robert van Wijngaarden",
         "c": "Barry Hay",
