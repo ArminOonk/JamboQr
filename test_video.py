@@ -7,6 +7,7 @@ import cv2
 import pyzbar.pyzbar as pyzbar
 import numpy as np
 from datetime import datetime
+import pygame
 
 
 def get_jambo_tags(decode_objects):
@@ -19,6 +20,9 @@ def get_jambo_tags(decode_objects):
 
 
 def main():
+    pygame.mixer.init()
+    pygame.mixer.music.load("slow_camera_shutter.wav")
+
     # initialize the camera and grab a reference to the raw camera capture
     camera = PiCamera()
     camera.resolution = (640, 480)
@@ -124,6 +128,8 @@ def main():
                     print('ans: ' + ans + ' given: ' + given_ans)
 
         if take_photo and time.time() > picture_time:
+            pygame.mixer.music.play()
+
             save_image = image[:camera.resolution[1], :camera.resolution[0], 0]
             save_image = cv2.resize(save_image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
             timestamp = datetime.strftime(datetime.now(), '%Y-%m-%d %H_%M_%S')
