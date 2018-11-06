@@ -69,7 +69,7 @@ def main():
 
         if current_team:
             if take_photo:
-                found_text = 'GOED! Take picture in: ' + str(int(picture_time - time.time()))
+                found_text = 'GOED! foto in: ' + str(int(picture_time - time.time()))
             else:
                 if not GPIO.input(23):
                     found_text = 'Take picture'
@@ -110,8 +110,6 @@ def main():
         x1, x2 = x_offset, x_offset + image.shape[1]
 
         border[y1:y2, x1:x2] = image
-
-
 
         # show the frame
         cv2.imshow("Frame", border)
