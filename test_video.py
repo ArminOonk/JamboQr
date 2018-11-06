@@ -21,7 +21,7 @@ def get_jambo_tags(decode_objects):
 
 def main():
     pygame.mixer.init()
-    pygame.mixer.music.load("slow_camera_shutter.wav")
+
 
     # initialize the camera and grab a reference to the raw camera capture
     camera = PiCamera()
@@ -108,6 +108,8 @@ def main():
                     found_text = 'Take picture'
                     picture_time = time.time() + 5.0
                     take_photo = True
+                    pygame.mixer.music.load('cheer.wav')
+                    pygame.mixer.music.play()
                 else:
                     found_text = 'Team ' + team + ' geef het antwoord.'
 
@@ -128,6 +130,7 @@ def main():
                     print('ans: ' + ans + ' given: ' + given_ans)
 
         if take_photo and time.time() > picture_time:
+            pygame.mixer.music.load('slow_camera_shutter.wav')
             pygame.mixer.music.play()
 
             save_image = image[:camera.resolution[1], :camera.resolution[0], 0]
