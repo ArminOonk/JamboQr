@@ -6,7 +6,6 @@ import time
 import cv2
 import pyzbar.pyzbar as pyzbar
 import numpy as np
-import RPi.GPIO as GPIO
 from datetime import datetime
 
 
@@ -39,44 +38,57 @@ def main():
 
     border = np.zeros((1080, 1920), np.uint8)
 
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
     current_team = ''
     start_team = time.time()
     take_photo = False
     picture_time = time.time()
     start_time = time.time()
+    ans = ''
 
     # capture frames from the camera
     for frame in camera.capture_continuous(raw_capture, format="yuv", use_video_port=True):
         image = frame.array
 
         jambo_tags = get_jambo_tags(pyzbar.decode(image))
+        given_ans = ''
 
         if 'jambo:STOP' in jambo_tags:
             print('Stopping')
             break
+        elif 'jambo:A' in jambo_tags:
+            given_ans = 'A'
+        elif 'jambo:B' in jambo_tags:
+            given_ans = 'B'
+        elif 'jambo:C' in jambo_tags:
+            given_ans = 'C'
+        elif 'jambo:D' in jambo_tags:
+            given_ans = 'D'
 
         if len(jambo_tags) == 1:
-            _, team, ans = jambo_tags[0].split(':')
+            try:
+                _, team, ans = jambo_tags[0].split(':')
 
-            current_team = team
-            start_team = time.time()
+                current_team = team
+                start_team = time.time()
+            except ValueError:
+                print(jambo_tags[0])
 
         if time.time() - start_team > 10.0:
             current_team = ''  # Timeout
+            ans = ''
 
         if current_team:
             if take_photo:
                 found_text = 'GOED! foto in: ' + str(int(picture_time - time.time()))
             else:
-                if not GPIO.input(23):
+                if ans.upper() == given_ans.upper():
+                    ans = ''
                     found_text = 'Take picture'
                     picture_time = time.time() + 3.0
                     take_photo = True
                 else:
-                    found_text = 'Team ' + team + ' geef het antwoord. ' + ans
+                    found_text = 'Team ' + team + ' geef het antwoord.'
+                    print('ans: ' + ans + ' given: ' + given_ans)
         else:
             found_text = ''
 
