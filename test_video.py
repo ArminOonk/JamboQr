@@ -44,6 +44,9 @@ def main():
     picture_time = time.time()
     start_time = time.time()
     ans = ''
+    kleur = ''
+
+    color = {'a': 'Rood', 'b': 'Groen', 'c': 'Geel', 'd': 'Oranje'}
 
     # capture frames from the camera
     for frame in camera.capture_continuous(raw_capture, format="yuv", use_video_port=True):
@@ -63,6 +66,14 @@ def main():
             given_ans = 'C'
         elif 'jambo:D' in jambo_tags:
             given_ans = 'D'
+        elif 'jambo:rood' in jambo_tags:
+            kleur = 'rood'
+        elif 'jambo:groen' in jambo_tags:
+            kleur = 'groen'
+        elif 'jambo:geel' in jambo_tags:
+            kleur = 'geel'
+        elif 'jambo:oranje' in jambo_tags:
+            kleur = 'oranje'
 
         if len(jambo_tags) == 1:
             try:
@@ -76,21 +87,24 @@ def main():
         if time.time() - start_team > 10.0:
             current_team = ''  # Timeout
             ans = ''
+            kleur = ''
 
+        found_text = ''
+        found_color = ''
         if current_team:
             if take_photo:
                 found_text = 'GOED! foto in: ' + str(int(picture_time - time.time()))
             else:
-                if ans.upper() == given_ans.upper():
+                if ans.upper() == given_ans.upper() and color[given_ans.lower()].upper() == kleur.upper():
                     ans = ''
+                    kleur = ''
                     found_text = 'Take picture'
                     picture_time = time.time() + 3.0
                     take_photo = True
                 else:
                     found_text = 'Team ' + team + ' geef het antwoord.'
+                    found_color = 'Kleur: ' + kleur
                     print('ans: ' + ans + ' given: ' + given_ans)
-        else:
-            found_text = ''
 
         if take_photo and time.time() > picture_time:
             save_image = image[:camera.resolution[1], :camera.resolution[0], 0]
@@ -100,8 +114,10 @@ def main():
             cv2.imwrite('photos/' + current_team + '_' + timestamp + '.png', save_image)
             current_team = ''
             take_photo = False
+            time.sleep(3.0)
 
         cv2.putText(image, found_text, (10, 100), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(image, found_color, (10, 200), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
 
         # On screen text
         frame_counter += 1
