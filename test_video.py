@@ -84,7 +84,7 @@ def main():
             except ValueError:
                 print(jambo_tags[0])
 
-        if time.time() - start_team > 10.0 and not take_photo:
+        if time.time() - start_team > 20.0 and not take_photo:
             current_team = ''  # Timeout
             ans = ''
             kleur = ''
