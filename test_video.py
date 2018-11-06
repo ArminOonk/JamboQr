@@ -45,6 +45,7 @@ def main():
     start_time = time.time()
     ans = ''
     kleur = ''
+    given_ans = ''
 
     color = {'a': 'Rood', 'b': 'Groen', 'c': 'Geel', 'd': 'Oranje'}
 
@@ -53,7 +54,6 @@ def main():
         image = frame.array
 
         jambo_tags = get_jambo_tags(pyzbar.decode(image))
-        given_ans = ''
 
         if 'jambo:STOP' in jambo_tags:
             print('Stopping')
@@ -84,26 +84,43 @@ def main():
             except ValueError:
                 print(jambo_tags[0])
 
-        if time.time() - start_team > 10.0:
+        if time.time() - start_team > 10.0 and not take_photo:
             current_team = ''  # Timeout
             ans = ''
             kleur = ''
+            given_ans = ''
 
-        found_text = ''
+        found_text = 'Presenteer QR'
         found_color = ''
+        found_ans = ''
         if current_team:
             if take_photo:
-                found_text = 'GOED! foto in: ' + str(int(picture_time - time.time()))
+                found_text = 'GOED! lach voor de foto in: ' + str(int(picture_time - time.time()))
             else:
                 if ans.upper() == given_ans.upper() and color[given_ans.lower()].upper() == kleur.upper():
                     ans = ''
                     kleur = ''
+                    given_ans = ''
                     found_text = 'Take picture'
-                    picture_time = time.time() + 3.0
+                    picture_time = time.time() + 5.0
                     take_photo = True
                 else:
                     found_text = 'Team ' + team + ' geef het antwoord.'
-                    found_color = 'Kleur: ' + kleur
+
+                    if given_ans and kleur:
+                        if color[given_ans.lower()].upper() == kleur.upper():
+                            found_color = 'Kleur: ' + kleur + ' GOED!'
+                        else:
+                            found_color = 'Kleur: ' + kleur + ' FOUT!'
+
+                        if ans.upper() == given_ans.upper():
+                            found_ans = 'Antwoord: ' + given_ans.upper() + ' GOED!'
+                        else:
+                            found_ans = 'Antwoord: ' + given_ans.upper() + ' FOUT!'
+                    else:
+                        found_color = 'Kleur: ' + kleur
+                        found_ans = 'Antwoord: ' + given_ans.upper()
+
                     print('ans: ' + ans + ' given: ' + given_ans)
 
         if take_photo and time.time() > picture_time:
@@ -117,7 +134,8 @@ def main():
             time.sleep(3.0)
 
         cv2.putText(image, found_text, (10, 100), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
-        cv2.putText(image, found_color, (10, 200), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(image, found_color, (10, 150), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(image, found_ans, (10, 200), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
 
         # On screen text
         frame_counter += 1
@@ -126,7 +144,7 @@ def main():
             prev_time = time.time()
             osd_text = 'fps: ' + '{:.2f}'.format(float(frame_average) / dt)
 
-        cv2.putText(image, osd_text, (10, 50), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+        # cv2.putText(image, osd_text, (10, 50), font, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
 
         image = image[:camera.resolution[1], :camera.resolution[0], 0]
         image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
