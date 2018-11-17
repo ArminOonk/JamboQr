@@ -8,7 +8,7 @@ import pyzbar.pyzbar as pyzbar
 import numpy as np
 import RPi.GPIO as GPIO
 from datetime import datetime
-
+import os
 
 def get_jambo_tags(decode_objects):
     jambo_tags = []
@@ -56,6 +56,9 @@ def main():
 
         if 'jambo:STOP' in jambo_tags:
             print('Stopping')
+            break
+        if 'jambo:shutdown' in jambo_tags:
+            os.system('sudo shutdown -h now')
             break
 
         if len(jambo_tags) == 1:
