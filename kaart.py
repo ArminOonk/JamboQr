@@ -144,6 +144,7 @@ with open('question.txt', 'r', encoding="utf8") as f:
 for q in questions:
     print(q['q'] + ' -> ' + q[q['ans']])
 print('Aantal vragen: ' + str(len(questions)))
+quit()
 
 teams = read_teamnames('teamnamen sorted.txt')
 page_number = 0
